@@ -38,5 +38,7 @@ class GeocodedPollingLocationAdmin(OSMGeoAdmin):
 
 @admin.register(IncidentReport)
 class IncidentReportAdmin(admin.ModelAdmin):
-    list_display = ['polling_location', 'scope', 'nature', 'reporter_name']
+    actions = None  # this will need changing.
+    list_display = ['__unicode__', 'scope', 'nature', 'reporter_name', 'assignee', 'status']
+    list_filter = ['polling_location__state']
     raw_id_fields = ['polling_location']

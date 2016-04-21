@@ -1,5 +1,6 @@
 from django.contrib.gis.db import models
 from django.contrib.auth.models import User
+from localflavor.us.models import PhoneNumberField
 
 
 class County(models.Model):
@@ -58,7 +59,7 @@ class GeocodedPollingLocation(models.Model):
         db_table = 'geocoded_polling_locations'
 
     def __unicode__(self):
-        return self.precinctname
+        return "%s, %s, %s" % (self.pollinglocation, self.city, self.state)
 
 
 class IncidentReport(models.Model):
@@ -80,19 +81,30 @@ class IncidentReport(models.Model):
             ('id-issues', 'ID Issues'),
             ('17-yo-voting', '17 Year Old Voting'),
         )
-    owner = models.ForeignKey(User, blank=True, null=True)
-    owner_name = models.CharField(max_length=128)
-    owner_email = models.EmailField(max_length=128)
-    owner_phone = models.CharField(max_length=128) # localize
+    STATUS_CHOICES = (
+            ('new', 'New'),
+            ('assigned', 'Assigned'),
+            ('resolved', 'Resolved'),
+            ('closed', 'Closed')
+        )
+    creator = models.ForeignKey(User, blank=True, null=True, related_name='incidents_created')
+    creator_name = models.CharField(max_length=128)
+    creator_email = models.EmailField(max_length=128)
+    creator_phone = models.CharField(max_length=128) # localize
     reporter_name = models.CharField(max_length=128)
-    reporter_phone = models.CharField(max_length=128)
+    reporter_phone = PhoneNumberField(max_length=128)
     # county = models.ForeignKey(County)
     polling_location = models.ForeignKey(GeocodedPollingLocation, db_constraint=False)
     time = models.DateTimeField(auto_now_add=True)
     scope = models.IntegerField(choices=SCOPE_CHOICES)
     nature = models.CharField(max_length=32, choices=NATURE_CHOICES)
     description = models.TextField(blank=True)
+    status = models.CharField(max_length=32, choices=STATUS_CHOICES)
+    assignee = models.ForeignKey(User, blank=True, null=True, related_name='assigned_incidents')
 
     class Meta:
         verbose_name = 'Incident Report'
+
+    def __unicode__(self):
+        return '#%s at %s' % (self.pk, self.polling_location)
 
