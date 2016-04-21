@@ -13,7 +13,7 @@ class CountyFilter(admin.SimpleListFilter):
         if not states:
             return ()
         states_spelled_out = map(lambda state: unicode(state[1]), filter(lambda state: state[0] in states.split(','), US_STATES))
-        return County.objects.filter(state__in=states_spelled_out).defer('geom').values_list('gid', 'county')
+        return County.objects.filter(state__in=states_spelled_out).defer('geom').order_by('county').values_list('gid', 'county')
 
     def queryset(self, request, queryset):
         if self.value():
