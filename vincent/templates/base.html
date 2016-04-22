@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+    <title>Vincent &mdash; Voter Incident Reporting</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="http://assets.forberniesanders.com/berniestrap/css/bootstrap.min.css" />
+    <style type="text/css">
+        .jumbotron .text-muted{ color: #205372;
+                                font-weight: bold;
+                                text-transform: uppercase;
+                                letter-spacing: 8px; }
+        @media screen and (max-width: 767px){
+            .jumbotron .text-muted{
+                font-size: 1.0em;
+            }
+        }
+
+        dt, dd{ margin-bottom: 0.2em; }
+    </style>
+</head>
+
+<body>
+
+    {% block page %}
+
+        {% block header %}
+            <section class="jumbotron">
+                <div class="container text-center">
+                    <h3>Vincent</h3>
+                    <p class="lead text-muted">Voter Incident Reporting System</p>
+                </div>
+            </section>
+        {% endblock %}
+
+        {% block content %}
+            <section>
+                <div class="container">
+                    {% block container %}
+
+                    {% endblock %}
+                </div>
+            </section>
+        {% endblock %}
+
+
+    {% endblock %}
+
+
+
+</body>
+</html>

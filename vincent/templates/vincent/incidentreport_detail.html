@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block container %}
+
+    <div class="row">
+        <div class="col-xs-12">
+            <a href="{% url "incident_list" %}">&larr; Back to All Incidents</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h4>Incident Report #{{ object.pk }}</h4>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <dl>
+                <dt>Description of Incident:</dt>
+                    <dd>{{ object.description }}</dd>
+            </dl>
+        </div>
+        <div class="col-sm-6">
+            <dl class="dl-horizontal">
+                <dt>Scope:</dt>
+                    <dd>{{ object.get_scope_display }}</dd>
+                <dt>Nature:</dt>
+                    <dd>{{ object.get_nature_display }}</dd>
+                <dt>Location:</dt>
+                    <dd>{{ object.polling_location.pollinglocation }}<br />
+                        {{ object.polling_location.addr }}<br />
+                        {{ object.polling_location.city }}, {{ object.polling_location.state }} {{ object.polling_location.zip }}<br />
+                        <a href="geo://{{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}">Open in Google Maps</a>
+                    </dd>
+                <dt>Reporter:</dt>
+                    <dd>{{ object.reporter_name }} (<a href="tel://{{ object.reporter_phone }}">{{ object.reporter_phone }}</a>)</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <iframe frameborder="0" style="width: 100%; min-height: 300px" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyCbee9eQ3eto8CqVXfpf3lRg-k53UGaINE&amp;origin=Current+Location&amp;destination={{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}"></iframe>
+        </div>
+    </div>
+
+{% endblock %}
