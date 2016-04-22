@@ -36,9 +36,10 @@
                         {{ object.polling_location.city }}, {{ object.polling_location.state }} {{ object.polling_location.zip }}<br />
                         Open in:
                             <ul class="inline">
-                                <li><a href="comgooglemaps://{{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}">Google Maps app</a></li>
+                                <li><a href="comgooglemaps://?q={{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}">Google Maps app</a></li>
                                 <li><a href="https://www.google.com/maps/place/{{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}">Google Maps site</a></li>
-                                <li><a href="maps://{{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}">Apple Maps</a></li>
+                                <li><a href="maps://?q={{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}">Apple Maps (app)</a></li>
+                                <li><a href="http://maps.apple.com/?q={{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}">Apple Maps (site)</a></li>
                             </ul>
                     </dd>
                 <dt>Reporter:</dt>
