@@ -16,6 +16,11 @@
         }
 
         dt, dd{ margin-bottom: 0.2em; }
+
+        footer{ margin-top: 3em; padding: 2em 0; color: #fff; background: #205372; }
+
+        {% block extra_css %}
+        {% endblock %}
     </style>
 </head>
 
@@ -44,6 +49,14 @@
 
 
     {% endblock %}
+
+    <footer>
+        <section>
+            <div class="container text-center">
+                Vincent is copyright &copy; Bernie 2016.
+            </div>
+        </section>
+    </footer>
 
 
 

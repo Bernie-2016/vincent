@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
+
 from django.contrib.gis.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from localflavor.us.models import PhoneNumberField
 
 
@@ -72,12 +75,78 @@ class IncidentReport(models.Model):
             (50, 'State'),
         )
     NATURE_CHOICES = (
-            ('ballots', 'Ballots'),
-            ('check-in', 'Check-In'),
-            ('machines', 'Machines'),
-            ('registration', 'Registration'),
-            ('site', 'Site'),
-            ('challenge-intimigation', 'Challenge / Intimidation'),
+            ('Ballots', (
+                    ('not-enough-ballots', 'Not enough ballots'),
+                    ('not-using-paper-ballots-to-compensate-for-machines', 'Not using paper ballots to compensate for machines'),
+                    ('wrong-ballots-distributed', 'Wrong ballots distributed'),
+                    ('improper-ballot-storage', 'Improper ballot storage'),
+                    ('not-enough-provisional-ballots', 'Not enough provisional ballots'),
+                    ('improper-use-of-provisional-ballots', 'Improper use of provisional ballots'),
+                    ('excessive-use-of-provisional-ballots', 'Excessive use of provisional ballots'),
+                    ('failure-to-give-provisional-ballots', 'Failure to give provisional ballots'),
+                    ('other-provisional-ballots', 'Other - provisional ballots'),
+                    ('other-ballots', 'Other - ballots')
+                )
+            ),
+            ('Check-In', (
+                    ('poll-workers-giving-incorrect-voting-instructions', 'Poll workers giving incorrect voting instructions'),
+                    ('directing-voters-to-wrong-site-or-failing-to-direct-them-to-correct-one', 'Directing voters to wrong site (or failing to direct them to correct one)'),
+                    ('voters-in-line-at-closing-not-allowed-to-vote', 'Voters in line at closing not allowed to vote'),
+                    ('slow-check-in-due-to-volume', 'Slow check-in due to volume'),
+                    ('language-related-problem', 'Language-related problem'),
+                    ('other-check-in-problem', 'Other check-in problem'),
+                    ('problem-due-to-absentee-ballot-in-person-vote', 'Problem due to absentee ballot & in-person vote'),
+                    ('did-not-receive-absentee-ballot', 'Did not receive absentee ballot'),
+                ),
+            ),
+            ('Machines', (
+                    ('machines-not-functional-usable', 'Machines not functional/usable'),
+                    ('not-enough-machines', 'Not enough machines'),
+                    ('zero-tape-problems', 'Zero tape problems'),
+                    ('wrong-vote-result', 'Wrong vote result'),
+                    ('other-tally-problems', 'Other tally problems'),
+                    ('machine-security-problems', 'Machine security problems'),
+                    ('other-machines', 'Other - machines'),
+                )
+            ),
+            ('Registration', (
+                    ('registered-but-not-on-the-rolls', 'Registered but not on the rolls'),
+                    ('problem-due-to-change-of-address', 'Problem due to change of address'),
+                    ('problem-due-to-alleged-criminal-conviction', 'Problem due to alleged criminal conviction'),
+                    ('challenge-to-voter-eligibility', 'Challenge to voter eligibility'),
+                    ('legitimate-id-not-accepted', 'Legitimate ID not accepted'),
+                    ('id-demanded-when-not-necessary', 'ID demanded when not necessary'),
+                    ('same-day-registration-delays', 'Same-day registration delays'),
+                    ('other-registration-problems', 'Other registration problems'),
+                )
+            ),
+            ('Site', (
+                    ('location-closed', 'Location closed'),
+                    ('location-not-accessible-to-persons-with-disabilities', 'Location not accessible to persons with disabilities'),
+                    ('location-obstructed-or-blocked-off', 'Location obstructed or blocked off'),
+                    ('lack-of-parking', 'Lack of parking'),
+                    ('signage-problems', 'Signage problems'),
+                    ('electioneering', 'Electioneering'),
+                    ('not-enough-supplies-or-forms', 'Not enough supplies or forms'),
+                    ('other-site-problems', 'Other - site problems'),
+                    ('site-problems-due-to-not-enough-officials', 'Site problems due to not enough officials'),
+                    ('site-problems-due-to-not-enough-voting-booths', 'Site problems due to not enough voting booths'),
+                    ('inefficient-poll-workers', 'Inefficient poll workers'),
+                    ('slow-check-in-system', 'Slow check-in system'),
+                    ('undue-restrictions-on-observer', 'Undue restrictions on observer'),
+                )
+            ),
+            ('Challenge / Intimidation', (
+                    ('misinformation', 'Misinformation'),
+                    ('citizenship-based-challenges', 'Citizenship-based challenges'),
+                    ('residence-based-challenges', 'Residence-based challenges'),
+                    ('id-based-challenges', 'ID-based challenges'),
+                    ('other-challenges', 'Other challenges'),
+                    ('unhelpful-law-enforcement-presence', 'Unhelpful law enforcement presence'),
+                    ('poll-worker-interference', 'Poll worker interference'),
+                    ('other-harassment', 'Other harassment'),
+                )
+            ),
             ('id-issues', 'ID Issues'),
             ('17-yo-voting', '17 Year Old Voting'),
         )
@@ -97,7 +166,7 @@ class IncidentReport(models.Model):
     polling_location = models.ForeignKey(GeocodedPollingLocation, db_constraint=False)
     time = models.DateTimeField(auto_now_add=True)
     scope = models.IntegerField(choices=SCOPE_CHOICES)
-    nature = models.CharField(max_length=32, choices=NATURE_CHOICES)
+    nature = models.CharField(max_length=128, choices=NATURE_CHOICES)
     description = models.TextField(blank=True)
     status = models.CharField(max_length=32, choices=STATUS_CHOICES)
     assignee = models.ForeignKey(User, blank=True, null=True, related_name='assigned_incidents')
@@ -106,5 +175,22 @@ class IncidentReport(models.Model):
         verbose_name = 'Incident Report'
 
     def __unicode__(self):
-        return '#%s at %s' % (self.pk, self.polling_location)
+        return '#%s - %s' % (self.pk, self.get_nature_display())
 
+    def get_absolute_url(self):
+        return reverse('incident_detail', kwargs={'pk': self.pk})
+
+
+class Comment(models.Model):
+    incident_report = models.ForeignKey(IncidentReport)
+    author = models.ForeignKey(User)
+    message = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created']
+
+
+class PhoneNumber(models.Model):
+    user = models.ForeignKey(User)
+    phone_number = PhoneNumberField(max_length=128)

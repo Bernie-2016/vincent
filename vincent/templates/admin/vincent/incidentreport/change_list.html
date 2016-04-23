@@ -85,7 +85,7 @@
         var markers = [];
         
         {% for item in cl.queryset %}
-            markers.push(L.marker([{{ item.polling_location.geom.y }}, {{ item.polling_location.geom.x }}]).bindPopup("<p><a href=\"/admin/vincent/incidentreport/{{ item.pk }}\">Incident #{{ item.pk }}</a><br />{{ item.polling_location.pollinglocation }}<br />{{ item.polling_location.addr }}<br />{{ item.polling_location.city }}, {{ item.polling_location.state }} {{ item.polling_location.zip }}</p>"));
+            markers.push(L.marker([{{ item.polling_location.geom.y }}, {{ item.polling_location.geom.x }}]).bindPopup("<p><a href=\"/admin/vincent/incidentreport/{{ item.pk }}\">Incident #{{ item.pk }} &mdash; {{ item.get_nature_display }}</a><br />{% if item.description %}<blockquote>{{ item.description | truncatewords:40 }}</blockquote>{% endif %}{{ item.polling_location.pollinglocation }}, {{ item.polling_location.addr }}, {{ item.polling_location.city }}, {{ item.polling_location.state }} {{ item.polling_location.zip }}</p>"));
         {% endfor %}
 
         var points = L.featureGroup(markers).addTo(map);

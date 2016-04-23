@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block extra_css %}
+    #polling_locations_list{ margin-top: 1em; }
+{% endblock %}
+
+{% block container %}
+
+    <div class="row">
+        <div class="col-xs-12">
+            <a href="{% url "incident_list" %}">&larr; Back to All Incident Reports</a>
+        </div>
+    </div>
+
+    <h3>Add New Incident Report</h3>
+
+    <form action="" method="post">
+        {% bootstrap_form form %}
+        {% csrf_token %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        {% endbuttons %}
+    </form>
+
+{% endblock %}

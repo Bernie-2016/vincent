@@ -6,13 +6,13 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <a href="{% url "incident_list" %}">&larr; Back to All Incidents</a>
+            <a href="{% url "incident_list" %}">&larr; Back to All Incident Reports</a>
         </div>
     </div>
 
     <div class="row">
         <div class="col-xs-12">
-            <h4>Incident Report #{{ object.pk }}</h4>
+            <h4>Incident Report #{{ object.pk }} &mdash; {{ object.get_nature_display }}</h4>
             <hr />
         </div>
     </div>
@@ -20,16 +20,14 @@
     <div class="row">
         <div class="col-sm-6">
             <dl>
+                <dt>Scope:</dt>
+                    <dd>{{ object.get_scope_display }}</dd>
                 <dt>Description of Incident:</dt>
-                    <dd>{{ object.description }}</dd>
+                    <dd>{% firstof object.description "None provided" %}</dd>
             </dl>
         </div>
         <div class="col-sm-6">
             <dl class="dl-horizontal">
-                <dt>Scope:</dt>
-                    <dd>{{ object.get_scope_display }}</dd>
-                <dt>Nature:</dt>
-                    <dd>{{ object.get_nature_display }}</dd>
                 <dt>Location:</dt>
                     <dd>{{ object.polling_location.pollinglocation }}<br />
                         {{ object.polling_location.addr }}<br />
@@ -50,6 +48,48 @@
 
     <div class="row">
         <div class="col-xs-12">
+            <h5>Comments:</h5>
+        </div>
+    </div>
+
+    <hr />
+
+    {% for comment in object.comment_set.all %}
+        <div class="row">
+            <div class="col-xs-2">
+                <strong>{{ comment.author.get_full_name }}</strong><br />
+                {{ comment.created | date:"F jS Y g:ia"}}
+            </div>
+            <div class="col-xs-10">
+                {{ comment.message }}
+            </div>
+        </div>
+        <hr />
+    {% empty %}
+        <div class="row">
+            <div class="col-xs-12">
+                <p class="text-muted">There are no additional comments to show. Add one below.</p>
+            </div>
+        </div>
+        <hr />
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-xs-12">
+            <form action="{% url "comment_create" pk=object.pk %}" method="post">
+                {% bootstrap_form comment_form %}
+                {% csrf_token %}
+                {% buttons %}
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                {% endbuttons %}
+            </form>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h5>Polling Location:</h5>
             <iframe frameborder="0" style="width: 100%; min-height: 300px" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyCbee9eQ3eto8CqVXfpf3lRg-k53UGaINE&amp;origin=Current+Location&amp;destination={{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}"></iframe>
         </div>
     </div>
