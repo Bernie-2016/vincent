@@ -65,7 +65,7 @@ var polling_places_api = (function(){
                         }
                     }
                     document.getElementById('polling_locations_list').appendChild(_tpl);
-                    _tpl.addEventListener('click', self.setPollingLocation);
+                    _tpl.querySelector('a').addEventListener('click', self.setPollingLocation);
                 }
             } else {
                 var _tpl = tpl.cloneNode();
