@@ -54,9 +54,9 @@ class IncidentReportForm(forms.ModelForm):
 
     class Meta:
         model = IncidentReport
-        fields = ['nature', 'long_line', 'description', 'scope', 'polling_location',
+        fields = ['nature', 'long_line', 'scope', 'polling_location',
                     'reporter_name', 'reporter_phone', 'creator_name',
-                    'creator_email', 'creator_phone', 'assignee']
+                    'creator_email', 'creator_phone', 'assignee', 'description']
         widgets = {
             'polling_location': PollingPlaceLookupWidget,
             'creator': widgets.HiddenInput,
@@ -78,7 +78,7 @@ class CommentForm(forms.ModelForm):
         widgets = {
             'author': widgets.HiddenInput,
             'incident_report': widgets.HiddenInput,
-            'message': widgets.Textarea(attrs={'rows': 6})
+            'message': widgets.Textarea(attrs={'rows': 3})
         }
         labels = {
             'message': "Comment"

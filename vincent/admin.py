@@ -60,7 +60,7 @@ class CommentInline(admin.StackedInline):
 @admin.register(IncidentReport)
 class IncidentReportAdmin(admin.ModelAdmin):
     actions = None  # this will need changing.
-    fields = ['nature', 'long_line', 'description', 'scope', 'polling_location', 'reporter_name', 'reporter_phone', 'assignee', 'status', 'creator_name', 'creator_email', 'creator_phone']
+    fields = ['nature', 'long_line', 'scope', 'polling_location', 'reporter_name', 'reporter_phone', 'assignee', 'status', 'creator_name', 'creator_email', 'creator_phone', 'description']
     inlines = [CommentInline]
     list_display = ['__unicode__', 'scope', 'polling_location', 'assignee', 'status']
     list_filter = ['polling_location__state', IncidentReportCountyFilter, 'long_line', 'assignee', 'status']

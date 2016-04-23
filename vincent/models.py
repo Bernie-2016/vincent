@@ -62,7 +62,7 @@ class GeocodedPollingLocation(models.Model):
         db_table = 'geocoded_polling_locations'
 
     def __unicode__(self):
-        return "%s, %s, %s" % (self.pollinglocation, self.city, self.state)
+        return "%s, %s, %s (%s)" % (self.pollinglocation, self.city, self.state, self.precinctname)
 
 
 class IncidentReport(models.Model):
@@ -169,7 +169,7 @@ class IncidentReport(models.Model):
     nature = models.CharField(max_length=128, choices=NATURE_CHOICES)
     long_line = models.BooleanField(default=False)
     description = models.TextField(blank=True)
-    status = models.CharField(max_length=32, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=32, choices=STATUS_CHOICES, default='new')
     assignee = models.ForeignKey(User, blank=True, null=True, related_name='assigned_incidents')
 
     class Meta:
