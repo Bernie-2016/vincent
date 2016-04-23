@@ -167,6 +167,7 @@ class IncidentReport(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     scope = models.IntegerField(choices=SCOPE_CHOICES)
     nature = models.CharField(max_length=128, choices=NATURE_CHOICES)
+    long_line = models.BooleanField(default=False)
     description = models.TextField(blank=True)
     status = models.CharField(max_length=32, choices=STATUS_CHOICES)
     assignee = models.ForeignKey(User, blank=True, null=True, related_name='assigned_incidents')
@@ -194,3 +195,10 @@ class Comment(models.Model):
 class PhoneNumber(models.Model):
     user = models.ForeignKey(User)
     phone_number = PhoneNumberField(max_length=128)
+
+
+class AssignedLocation(models.Model):
+    user = models.OneToOneField(User)
+    polling_location = models.ForeignKey(GeocodedPollingLocation, db_constraint=False)
+    fulfilled = models.BooleanField(default=False)
+    updated = models.DateTimeField(auto_now=True)

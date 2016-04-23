@@ -60,10 +60,10 @@ class CommentInline(admin.StackedInline):
 @admin.register(IncidentReport)
 class IncidentReportAdmin(admin.ModelAdmin):
     actions = None  # this will need changing.
-    fields = ['nature', 'description', 'scope', 'polling_location', 'reporter_name', 'reporter_phone', 'assignee', 'status', 'creator_name', 'creator_email', 'creator_phone']
+    fields = ['nature', 'long_line', 'description', 'scope', 'polling_location', 'reporter_name', 'reporter_phone', 'assignee', 'status', 'creator_name', 'creator_email', 'creator_phone']
     inlines = [CommentInline]
     list_display = ['__unicode__', 'scope', 'polling_location', 'assignee', 'status']
-    list_filter = ['polling_location__state', IncidentReportCountyFilter, 'assignee', 'status']
+    list_filter = ['polling_location__state', IncidentReportCountyFilter, 'long_line', 'assignee', 'status']
     raw_id_fields = ['polling_location']
     search_fields = ['nature', 'description', 'polling_location__precinctcode', 'polling_location__addr', 'polling_location__city', 'polling_location__state', 'polling_location__zip']
 
@@ -73,3 +73,10 @@ class PhoneNumberAdmin(admin.ModelAdmin):
     actions = None
     list_display = ['user', 'phone_number']
     search_fields = ['user__first_name', 'user__last_name', 'user__email', 'phone_number']
+
+
+@admin.register(AssignedLocation)
+class AssignedLocationAdmin(admin.ModelAdmin):
+    actions = None
+    list_display = ['user', 'polling_location', 'fulfilled']
+    raw_id_fields = ['polling_location']

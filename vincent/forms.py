@@ -54,7 +54,7 @@ class IncidentReportForm(forms.ModelForm):
 
     class Meta:
         model = IncidentReport
-        fields = ['nature', 'description', 'scope', 'polling_location',
+        fields = ['nature', 'long_line', 'description', 'scope', 'polling_location',
                     'reporter_name', 'reporter_phone', 'creator_name',
                     'creator_email', 'creator_phone', 'assignee']
         widgets = {
@@ -63,6 +63,7 @@ class IncidentReportForm(forms.ModelForm):
             'assignee': widgets.HiddenInput
         }
         labels = {
+            'long_line': 'This incident involves a long line.',
             'creator_name': 'Your Name',
             'creator_email': 'Your Email',
             'creator_phone': 'Your Phone'

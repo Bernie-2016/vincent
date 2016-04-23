@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block container %}
+
+    <h4>Heads up! We need you to relocate.</h4>
+    <iframe frameborder="0" style="width: 100%; min-height: 300px" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyCbee9eQ3eto8CqVXfpf3lRg-k53UGaINE&amp;origin=Current+Location&amp;destination={{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}"></iframe>
+    <p>We need you at:</p>
+    <address>
+        {{ object.polling_location.pollinglocation }}<br />
+                                {{ object.polling_location.addr }}<br />
+                                {{ object.polling_location.city }}, {{ object.polling_location.state }} {{ object.polling_location.zip }}
+    </address>
+            <ul class="list-inline">
+                <li>Open in:</li>
+                <li><a href="comgooglemaps://?q={{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}">Google Maps app</a></li>
+                <li><a href="https://www.google.com/maps/place/{{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}">Google Maps site</a></li>
+                <li><a href="maps://?q={{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}">Apple Maps (app)</a></li>
+                <li><a href="http://maps.apple.com/?q={{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}">Apple Maps (site)</a></li>
+            </ul>
+    <p>This request was added {{ object.updated | timesince }} ago, at <strong>{{ object.updated | date:"F jS Y g:ia T" }}</strong>. Please make your way over there when you're able,
+        and click the 'OK' button below to let us know you've made it. (We will politely bug you in mean time.)</p>
+    <form action="" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">OK &mdash; I'm there now.</button>
+        <a href="{% url "incident_list" %}" class="btn btn-default">I'll head there soon</a>
+    </form>
+
+{% endblock %}

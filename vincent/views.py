@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
+from django.contrib import messages
+from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView, DetailView, ListView, View
@@ -10,7 +12,7 @@ from django.views.generic.base import ContextMixin
 
 
 from .forms import CommentForm, IncidentReportForm
-from .models import Comment, GeocodedPollingLocation, IncidentReport
+from .models import AssignedLocation, Comment, GeocodedPollingLocation, IncidentReport
 
 def index(request):
 
@@ -49,6 +51,7 @@ class CommentCreate(CreateView):
         return {'author': self.request.user}
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Your comment has been added.')
         return self.object.incident_report.get_absolute_url()
 
 
@@ -70,6 +73,13 @@ class IncidentCreate(CreateView):
                 'creator_email': self.request.user.email,
                 'creator': self.request.user,
                 'assignee': self.request.user }
+
+
+    def get_success_url(self):
+        url_and_title = {'url': self.object.get_absolute_url(),
+                            'title': unicode(self.object) }
+        messages.add_message(self.request, messages.SUCCESS, 'Your new incident report <a href="%(url)s">%(title)s</a> has been created. Add another below.' % url_and_title)
+        return reverse('incident_add')
 
 
 class PollingPlace(View):
@@ -101,3 +111,16 @@ class PollingPlace(View):
             return self.geo_lookup(request, *args, **kwargs)
         
         return JsonResponse(data={'error': 'Missing either `q` search parameter, or `lat` and `lng`.'})
+
+
+class AssignedLocation(DetailView):
+
+    def get_object(self):
+        return self.request.user.assignedlocation
+
+    def post(self, request, *args, **kwargs):
+        location = self.get_object()
+        location.fulfilled = True
+        location.save()
+        messages.add_message(self.request, messages.SUCCESS, 'Thank you for relocating!')
+        return redirect(reverse('incident_list'))

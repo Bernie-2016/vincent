@@ -38,6 +38,24 @@
             </section>
         {% endblock %}
 
+        {% block messages %}
+            <section>
+                <div class="container">
+                    {% for message in messages %}
+                        <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message | safe }}</div>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endblock %}
+
+        {% if request.user.assignedlocation and not request.user.assignedlocation.fulfilled %}
+            <div class="container">
+                <div class="alert alert-warning">
+                    <strong>Heads up! <a href="{% url "assigned_location" %}">We need you to relocate</a>.</strong>
+                </div>
+            </div>
+        {% endif %}
+
         {% block content %}
             <section>
                 <div class="container">
