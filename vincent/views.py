@@ -72,8 +72,7 @@ class IncidentCreate(CreateView):
     def get_initial(self):
         initial = {'creator_name': self.request.user.get_full_name(),
                 'creator_email': self.request.user.email,
-                'creator': self.request.user,
-                'assignee': self.request.user }
+                'creator': self.request.user }
         try:
             initial['creator_phone'] = self.request.user.phonenumber_set.first().phone_number
         except:
