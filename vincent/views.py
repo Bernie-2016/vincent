@@ -74,7 +74,7 @@ class IncidentCreate(CreateView):
                 'creator': self.request.user,
                 'assignee': self.request.user }
         try:
-            intial['creator_phone'] = self.request.user.phonenumber_set.first().phone_number
+            initial['creator_phone'] = self.request.user.phonenumber_set.first().phone_number
         except:
             pass
         return initial
