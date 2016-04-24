@@ -73,6 +73,7 @@ class IncidentReportAdmin(admin.ModelAdmin):
     list_display = ['summary', 'assignee', 'status']
     list_display_links = ['summary']
     list_filter = ['polling_location__state', IncidentReportCountyFilter, 'long_line', 'assignee', 'status']
+    list_select_related = ['polling_location', 'assignee']
     raw_id_fields = ['polling_location']
     search_fields = ['nature', 'description', 'polling_location__precinctcode', 'polling_location__addr', 'polling_location__city', 'polling_location__state', 'polling_location__zip']
 
