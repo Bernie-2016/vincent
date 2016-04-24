@@ -96,7 +96,7 @@ class PollingPlace(View):
         return self.get_json_response_from_filters(Q(geom__distance_lte=(point, D(mi=self.DISTANCE_IN_MILES))))
 
     def get_json_response_from_filters(self, filters):
-        polling_locations = [loc for loc in GeocodedPollingLocation.objects.filter(filters).values('precinctid', 'pollinglocation', 'addr', 'city', 'state', 'zip')]
+        polling_locations = [loc for loc in GeocodedPollingLocation.objects.filter(filters).values('precinctid', 'pollinglocation', 'precinctname', 'addr', 'city', 'state', 'zip')]
         return JsonResponse(data=polling_locations, safe=False)
 
     def get(self, request, *args, **kwargs):

@@ -32,7 +32,7 @@ class PollingPlaceLookupWidget(widgets.MultiWidget):
                                     dict(attrs, **{'id': 'id_' + name + "_display"}))
 
         list_wrapper = '<div id="polling_locations_list" class="list-group" style="display: none;"></div>' + \
-            '<div id="pp_template" class="list-group-item" style="display: none;"><a href="#"><b data-bind="pollinglocation"></b> <span data-bind="addr"></span>, <span data-bind="city"></span>, <span data-bind="state"></span>, <span data-bind="zip"></span></a></div>'
+            '<div id="pp_template" class="list-group-item" style="display: none;"><a href="#"><b data-bind="pollinglocation"></b> <span data-bind="addr"></span>, <span data-bind="city"></span> &mdash; <span data-bind="precinctname"></span></a></div>'
         
         # UI help
         help_text_html = """
