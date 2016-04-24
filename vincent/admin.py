@@ -77,10 +77,11 @@ class IncidentReportAdmin(admin.ModelAdmin):
     search_fields = ['nature', 'description', 'polling_location__precinctcode', 'polling_location__addr', 'polling_location__city', 'polling_location__state', 'polling_location__zip']
 
     def summary(self, obj):
-        return format_html('<h3><a href="{}">#{} &mdash; {}</a></h3><p><strong>{}</strong></p><p style="font-weight: normal;">{}</p>',
+        return format_html('<h3><a href="{}">#{} &mdash; {} &mdash; {}</a></h3><p><strong>{}</strong></p><p style="font-weight: normal;">{}</p>',
                         reverse('admin:vincent_incidentreport_change', args=[obj.pk]),
                         obj.pk,
                         obj.get_nature_display(),
+                        obj.created.strftime("%-I:%M:%S %p, %b %-d"),
                         obj.polling_location,
                         truncatewords(obj.description, 60))
 

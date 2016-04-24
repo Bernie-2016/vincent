@@ -171,6 +171,7 @@ class IncidentReport(models.Model):
     description = models.TextField(blank=True)
     status = models.CharField(max_length=32, choices=STATUS_CHOICES, default='new')
     assignee = models.ForeignKey(User, blank=True, null=True, related_name='assigned_incidents')
+    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = 'Incident Report'
