@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.gis.admin import OSMGeoAdmin
+from django.core.urlresolvers import reverse
 from django.template.defaultfilters import truncatewords
 from django.utils.html import format_html
 from localflavor.us.us_states import US_STATES
@@ -77,7 +78,7 @@ class IncidentReportAdmin(admin.ModelAdmin):
 
     def summary(self, obj):
         return format_html('<h3><a href="{}">#{} &mdash; {}</a></h3><p><strong>{}</strong></p><p style="font-weight: normal;">{}</p>',
-                        obj.get_absolute_url(),
+                        reverse('admin:vincent_incidentreport_change', args=[obj.pk]),
                         obj.pk,
                         obj.get_nature_display(),
                         obj.polling_location,
