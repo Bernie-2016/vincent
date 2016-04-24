@@ -69,10 +69,15 @@ class IncidentCreate(CreateView):
     model = IncidentReport
 
     def get_initial(self):
-        return {'creator_name': self.request.user.get_full_name(),
+        initial = {'creator_name': self.request.user.get_full_name(),
                 'creator_email': self.request.user.email,
                 'creator': self.request.user,
                 'assignee': self.request.user }
+        try:
+            intial['creator_phone'] = self.request.user.phonenumber_set.first().phone_number
+        except:
+            pass
+        return initial
 
 
     def get_success_url(self):
