@@ -36,11 +36,11 @@ class PollingPlaceLookupWidget(widgets.MultiWidget):
         
         # UI help
         help_text_html = """
-                <p class="help-block">You can <a href="#" id="geolocationLink">find
+                <p class="help-block">If you're out in the field, you can <a href="#" id="geolocationLink">find
                     the nearest polling location based on your
-                    current location</a>, or type in the name
+                    current location</a>.<br />Otherwise, type in the name
                     of your polling location above to search, and choose
-                    from a list.</p>
+                    from the list.</p>
             """
 
         # and, the real star of the show

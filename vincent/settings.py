@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'localflavor',
     'bootstrap3',
-    'vincent'
+    'vincent',
+    'debug_toolbar'
 ]
 
 MIDDLEWARE_CLASSES = [
