@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
 from django.contrib import messages
@@ -94,15 +95,17 @@ class PollingPlace(View):
         filters = Q()
         for field in ['pollinglocation', 'addr', 'city', 'state', 'zip']:
             filters = filters | Q(**{'%s__icontains' % field: self.q})
-        return self.get_json_response_from_filters(filters)
+        return self.get_json_response_from_filters(filters=filters, search_type='text', ordering=['pollinglocation'])
 
     def geo_lookup(self, request, *args, **kwargs):
         point = Point(x=float(self.lng), y=float(self.lat), srid=4326)
-        return self.get_json_response_from_filters(Q(geom__distance_lte=(point, D(mi=self.DISTANCE_IN_MILES))))
+        return self.get_json_response_from_filters(filters=Q(geom__distance_lte=(point, D(mi=self.DISTANCE_IN_MILES))), search_type='geo', annotations={'distance': Distance('geom', point)}, ordering=['distance'])
 
-    def get_json_response_from_filters(self, filters):
-        polling_locations = [loc for loc in GeocodedPollingLocation.objects.filter(filters).values('precinctid', 'pollinglocation', 'precinctname', 'addr', 'city', 'state', 'zip')]
-        return JsonResponse(data=polling_locations, safe=False)
+    def get_json_response_from_filters(self, filters, search_type='geo', annotations={}, ordering=[]):
+        queryset = GeocodedPollingLocation.objects.filter(filters).annotate(**annotations).order_by(*ordering)
+        keys = ['precinctid', 'pollinglocation', 'precinctname', 'addr', 'city', 'state', 'zip']
+        polling_locations = [loc for loc in queryset.values(*keys)]
+        return JsonResponse(data={'results': polling_locations, 'search_type': search_type}, safe=False)
 
     def get(self, request, *args, **kwargs):
         self.q = request.GET.get('q', None)
