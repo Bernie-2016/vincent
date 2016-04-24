@@ -99,4 +99,21 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-xs-12">
+            <h5>All Incidents at this Polling Location:</h5>
+            <div class="list-group">
+                {% for incidentreport in object.polling_location.incidentreport_set.all %}
+
+                    <div class="list-group-item">
+                        <a href="{{ incidentreport.get_absolute_url }}">
+                            <h4 class="list-group-item-heading">{{ incidentreport }}</h4>
+                            <p class="list-group-item-text">{{ incidentreport.description | truncatewords:50 }}</p>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
