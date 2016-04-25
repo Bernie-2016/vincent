@@ -109,7 +109,7 @@ class Command(BaseCommand):
             person_kwargs = dict((keyify[k], v) for k,v in person.iteritems())
             person_kwargs['username'] = ''.join([person['First Name'], person['Last Name']]).lower()
 
-            person_kwargs['password'] = "bernievopro%s" % random.randint(20,99)
+            password = "bernievopro%s" % random.randint(20,99)
 
             if group_name in self.STAFF_GROUPS:
                 person_kwargs['is_staff'] = True
@@ -117,7 +117,9 @@ class Command(BaseCommand):
             if group_name == 'Superusers':
                 person_kwargs['is_superuser'] = True
             
-            new_user = User.objects.create(**person_kwargs)
+            new_user = User(**person_kwargs)
+            new_user.set_password(password)
+            new_user.save()
 
             Group.objects.get(name=group_name).user_set.add(new_user)
 
@@ -148,7 +150,7 @@ Jon"""
 
                 plain_text_body = email_body_tpl % {'first_name': new_user.first_name,
                                                     'username': new_user.username,
-                                                    'password': person_kwargs['password']}
+                                                    'password': password}
 
                 html_body = linebreaks(urlize(plain_text_body))
 
