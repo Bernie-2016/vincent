@@ -126,7 +126,7 @@ class Command(BaseCommand):
             if phone_number:
                 PhoneNumber.objects.create(user=new_user, phone_number=phone_number)
 
-            print "Created new user '%s' with email '%s' and password '%s'" % (new_user.username, new_user.email, person_kwargs['password'])
+            print "Created new user '%s' with email '%s' and password '%s'" % (new_user.username, new_user.email, password)
 
             if options['send_email_invites']:
 
