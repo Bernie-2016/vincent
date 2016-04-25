@@ -29,6 +29,7 @@ def index(request):
             user = authenticate(username=username, password=password)
             if user is not None and user.is_active:
                 login(request, user)
+                # todo --- change password form.
                 return redirect('/incidents')
             else:
                 login_form.add_error(None, "Your user is inactive.")

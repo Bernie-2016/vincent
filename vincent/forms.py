@@ -29,7 +29,8 @@ class PollingPlaceLookupWidget(widgets.MultiWidget):
         # make the ID match the label for accessibility win
         # and rename the field name so we don't clobber it on the backend
         display_text_html = self.widgets[1].render(name + "_display", value, \
-                                    dict(attrs, **{'id': 'id_' + name + "_display"}))
+                                    dict(attrs, **{'id': 'id_' + name + "_display",
+                                                    'autocomplete': 'off'}))
 
         list_wrapper = '<div id="polling_locations_list" class="list-group" style="display: none;"></div>' + \
             '<div id="pp_template" class="list-group-item" style="display: none;"><a href="#"><b data-bind="pollinglocation"></b> <span data-bind="addr"></span>, <span data-bind="city"></span> &mdash; <span data-bind="precinctname"></span></a></div>'
@@ -55,7 +56,7 @@ class IncidentReportForm(forms.ModelForm):
     class Meta:
         model = IncidentReport
         fields = ['nature', 'long_line', 'scope', 'polling_location',
-                    'reporter_name', 'reporter_phone', 'creator_name',
+                    'reporter_name', 'reporter_phone', 'reporter_role', 'creator_name',
                     'creator_email', 'creator_phone', 'assignee', 'description']
         widgets = {
             'polling_location': PollingPlaceLookupWidget,

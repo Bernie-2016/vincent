@@ -150,6 +150,12 @@ class IncidentReport(models.Model):
             ('id-issues', 'ID Issues'),
             ('17-yo-voting', '17 Year Old Voting'),
         )
+    REPORTER_ROLE_CHOICES = (
+            ('voter', 'Voter'),
+            ('staff', 'Staff'),
+            ('legal-volunteer', 'Legal Volunteer'),
+            ('other', 'Other')
+        )
     STATUS_CHOICES = (
             ('new', 'New'),
             ('assigned', 'Assigned'),
@@ -159,10 +165,10 @@ class IncidentReport(models.Model):
     creator = models.ForeignKey(User, blank=True, null=True, related_name='incidents_created')
     creator_name = models.CharField(max_length=128)
     creator_email = models.EmailField(max_length=128)
-    creator_phone = models.CharField(max_length=128) # localize
+    creator_phone = PhoneNumberField(max_length=128)
     reporter_name = models.CharField(max_length=128)
     reporter_phone = PhoneNumberField(max_length=128)
-    # county = models.ForeignKey(County)
+    reporter_role = models.CharField(max_length=128, choices=REPORTER_ROLE_CHOICES, null=True, blank=True)
     polling_location = models.ForeignKey(GeocodedPollingLocation, db_constraint=False)
     time = models.DateTimeField(auto_now_add=True)
     scope = models.IntegerField(choices=SCOPE_CHOICES)
