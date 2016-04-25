@@ -41,7 +41,7 @@ def index(request):
 class IncidentList(ListView):
     
     def get_queryset(self):
-        return IncidentReport.objects.filter(assignee=self.request.user).select_related('polling_location')
+        return IncidentReport.objects.filter(assignee=self.request.user, status__in=['new', 'assigned']).select_related('polling_location')
 
 
 class CommentCreate(CreateView):
