@@ -4,8 +4,12 @@
     <title>Vincent &mdash; Voter Incident Reporting</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     {% load static %}
+    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Lato:100,900,700,400,300' />
     <link rel="stylesheet" href="{% static "css/berniestrap.css" %}" />
     <style type="text/css">
+
+        body{ font-family: 'Lato'; }
+
         .jumbotron .text-muted{ color: #205372;
                                 font-weight: bold;
                                 text-transform: uppercase;
@@ -18,7 +22,11 @@
 
         dt, dd{ margin-bottom: 0.2em; }
 
-        footer{ margin-top: 3em; padding: 2em 0; color: #fff; background: #205372; }
+        footer{ margin-top: 3em; padding: 2em 0; color: #999; background: #f0f8ff; line-height: 2em; border-top: 1px #e1eefa solid; }
+
+        .paid{ padding: 0.5em; border: 1px #999 solid; max-width: 20em; margin: 0 auto 10px; }
+
+        footer img{ max-width: 12em; margin: 1em 0; }
 
         {% block extra_css %}
         {% endblock %}
@@ -74,7 +82,17 @@
     <footer>
         <section>
             <div class="container text-center">
-                Vincent is copyright &copy; Bernie 2016.
+                
+                <p>BERNIE 2016<br />
+                PO BOX 905<br />
+                BURLINGTON, VT 05402</p>
+
+                <p class="paid">PAID FOR BY BERNIE 2016</p>
+
+                <img src="{% static "img/not-the-billionaires.png" %}" />
+
+                <p>&copy; BERNIE 2016 | <a href="https://berniesanders.com/privacy-policy">PRIVACY POLICY</a></p>
+
             </div>
         </section>
     </footer>
