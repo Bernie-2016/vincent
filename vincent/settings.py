@@ -122,5 +122,11 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-
 LOGIN_URL = '/'
+
+# Email
+
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+MAILGUN_ACCESS_KEY = os.environ.get('MAILGUN_ACCESS_KEY', None)
+MAILGUN_SERVER_NAME = os.environ.get('MAILGUN_SERVER_NAME', None)
+

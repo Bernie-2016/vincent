@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
@@ -11,9 +11,9 @@ from django.shortcuts import render, redirect
 from django.views.generic import CreateView, DetailView, ListView, View
 from django.views.generic.base import ContextMixin
 
-
 from .forms import CommentForm, IncidentReportForm
 from .models import AssignedLocation, Comment, GeocodedPollingLocation, IncidentReport
+
 
 def index(request):
 
@@ -21,18 +21,20 @@ def index(request):
     if request.method == 'GET' and request.user.is_authenticated() and request.user.is_active:
         return redirect('/incidents')
 
+    login_form = AuthenticationForm(data=request.POST or request.GET or None)
+    if login_form.is_valid():
+        username, password = login_form.cleaned_data['username'], login_form.cleaned_data['password']
+        user = authenticate(username=username, password=password)
+        if user is not None and user.is_active:
+            last_login = user.last_login
+            login(request, user)
 
-    login_form = AuthenticationForm(data=request.POST or None)
-    if request.method == 'POST':
-        if login_form.is_valid():
-            username, password = login_form.cleaned_data['username'], login_form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
-            if user is not None and user.is_active:
-                login(request, user)
-                # todo --- change password form.
-                return redirect('/incidents')
+            if not last_login:
+                return redirect('change_password')
             else:
-                login_form.add_error(None, "Your user is inactive.")
+                return redirect('incident_list')
+        else:
+            login_form.add_error(None, "Your user is inactive.")
 
     # note -- may be returned in both GET and POST requests
     # (POST if their user/pass is invalid or inactive)
