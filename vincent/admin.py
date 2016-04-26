@@ -57,6 +57,26 @@ class AssigneeFilter(admin.SimpleListFilter):
         return queryset
 
 
+class StatusFilter(admin.SimpleListFilter):
+    title = 'Status'
+    parameter_name = 'status'
+
+    def lookups(self, request, model_admin):
+        choices = list( IncidentReport.STATUS_CHOICES)
+        choices.insert(0, ('new+assigned', 'New or Assigned'))
+        return choices
+
+    def queryset(self, request, queryset):
+        value = self.value()
+        if not value:
+            return queryset
+        else:
+            filters = {'status': value}
+            if '+' in value:
+                filters = {'status__in': value.split('+')}
+            return queryset.filter(**filters)
+
+
 @admin.register(County)
 class CountyAdmin(OSMGeoAdmin):
     list_display = ['county', 'state']
@@ -96,7 +116,7 @@ class IncidentReportAdmin(admin.ModelAdmin):
     inlines = [CommentInline]
     list_display = ['summary', 'assignee', 'status']
     list_display_links = ['summary']
-    list_filter = ['status', 'polling_location__state', IncidentReportCountyFilter, 'long_line', AssigneeFilter]
+    list_filter = [StatusFilter, 'polling_location__state', IncidentReportCountyFilter, 'long_line', AssigneeFilter]
     list_select_related = ['polling_location', 'assignee']
     raw_id_fields = ['polling_location']
     search_fields = ['nature', 'description', 'polling_location__precinctcode', 'polling_location__addr', 'polling_location__city', 'polling_location__state', 'polling_location__zip']
