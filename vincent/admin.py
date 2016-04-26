@@ -114,12 +114,15 @@ class IncidentReportAdmin(admin.ModelAdmin):
     actions = None  # this will need changing.
     fields = ['nature', 'long_line', 'scope', 'polling_location', 'reporter_name', 'reporter_phone', 'reporter_role', 'assignee', 'status', 'creator_name', 'creator_email', 'creator_phone', 'description']
     inlines = [CommentInline]
-    list_display = ['summary', 'assignee', 'status']
+    list_display = ['summary', 'priority', 'assignee', 'status']
     list_display_links = ['summary']
-    list_filter = [StatusFilter, 'polling_location__state', IncidentReportCountyFilter, 'long_line', AssigneeFilter]
+    list_filter = [StatusFilter, 'polling_location__priority', 'polling_location__state', IncidentReportCountyFilter, 'long_line', AssigneeFilter]
     list_select_related = ['polling_location', 'assignee']
     raw_id_fields = ['polling_location']
     search_fields = ['nature', 'description', 'polling_location__precinctcode', 'polling_location__addr', 'polling_location__city', 'polling_location__state', 'polling_location__zip']
+
+    def priority(self, obj):
+        return obj.polling_location.priority if obj.polling_location else 4
 
     def summary(self, obj):
         return format_html('<h3><a href="{}">#{} &mdash; {}: {}</a></h3><p><strong>Created: {} | Location: {}</strong></p><p style="font-weight: normal;">{}</p>',

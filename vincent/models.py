@@ -55,6 +55,7 @@ class GeocodedPollingLocation(models.Model):
     longitude = models.FloatField(blank=True, null=True)
     geocode_failure = models.CharField(max_length=1000, blank=True, null=True)
     geom = models.PointField(blank=True, null=True)
+    priority = models.FloatField(blank=True, null=True, default=4)
 
     class Meta:
         managed = False
