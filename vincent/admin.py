@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.models import User
 from django.contrib.gis.admin import OSMGeoAdmin
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import truncatewords
@@ -41,6 +42,19 @@ class IncidentReportCountyFilter(admin.SimpleListFilter):
         return queryset
 
 
+class AssigneeFilter(admin.SimpleListFilter):
+    title = 'Assignee'
+    parameter_name = 'assignee'
+
+    def lookups(self, request, model_admin):
+        return User.objects.filter(is_staff=True).values_list('pk', 'username')
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(assignee_id=self.value())
+        return queryset
+
+
 @admin.register(County)
 class CountyAdmin(OSMGeoAdmin):
     list_display = ['county', 'state']
@@ -64,6 +78,9 @@ class GeocodedPollingLocationAdmin(OSMGeoAdmin):
 class CommentInline(admin.StackedInline):
     model = Comment
 
+    def get_changeform_initial_data(self, request):
+        return {'author': request.user}
+
 
 @admin.register(IncidentReport)
 class IncidentReportAdmin(admin.ModelAdmin):
@@ -72,7 +89,7 @@ class IncidentReportAdmin(admin.ModelAdmin):
     inlines = [CommentInline]
     list_display = ['summary', 'assignee', 'status']
     list_display_links = ['summary']
-    list_filter = ['polling_location__state', IncidentReportCountyFilter, 'long_line', 'assignee', 'status']
+    list_filter = ['status', 'polling_location__state', IncidentReportCountyFilter, 'long_line', AssigneeFilter]
     list_select_related = ['polling_location', 'assignee']
     raw_id_fields = ['polling_location']
     search_fields = ['nature', 'description', 'polling_location__precinctcode', 'polling_location__addr', 'polling_location__city', 'polling_location__state', 'polling_location__zip']

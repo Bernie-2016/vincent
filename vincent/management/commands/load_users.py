@@ -15,7 +15,7 @@ from ...models import PhoneNumber
 
 class Command(BaseCommand):
     NEEDED_FIELDS = ['First Name', 'Last Name', 'Email', 'Phone', 'Group']
-    STAFF_GROUPS = ['Incident Report Admins']
+    STAFF_GROUPS = ['Lead Lawyers', 'Admins']
     help = 'Adds new users.'
 
     def add_arguments(self, parser):
@@ -114,8 +114,8 @@ class Command(BaseCommand):
             if group_name in self.STAFF_GROUPS:
                 person_kwargs['is_staff'] = True
 
-            if group_name == 'Superusers':
-                person_kwargs['is_superuser'] = True
+            # if group_name == 'Superusers':
+            #     person_kwargs['is_superuser'] = True
             
             new_user = User(**person_kwargs)
             new_user.set_password(password)
@@ -130,7 +130,7 @@ class Command(BaseCommand):
 
             if options['send_email_invites']:
 
-                email_body_tpl = """Hi %(first_name)s,
+                operator_tpl = """Hi %(first_name)s,
 
 You've been invited to use Vincent, a new voter incident tracking system.
 
@@ -147,6 +147,25 @@ Feel free to respond to this email if you have any troubles and we'll get you so
 Thank you!
 
 Jon"""
+
+
+                admin_tpl = """Hi %(first_name)s,
+
+You've been invited to use Vincent, a new voter incident tracking system.
+
+Your username is %(username)s and your password is %(password)s.
+
+As an admin, you can log in here to get a dashboard view of all incidents:
+
+https://vincent.berniesanders.com/admin/vincent/incidentreport/
+
+Feel free to respond to this email if you have any troubles and we'll get you sorted.
+
+Thank you!
+
+Jon"""
+
+                email_body_tpl = admin_tpl if group_name == 'Admins' else operator_tpl
 
                 plain_text_body = email_body_tpl % {'first_name': new_user.first_name,
                                                     'username': new_user.username,
