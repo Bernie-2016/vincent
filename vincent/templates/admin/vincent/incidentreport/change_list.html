@@ -86,7 +86,7 @@
         var heatmapData = {
           max: 8,
           data: [
-            {% for item in cl.queryset %}
+            {% for item in cl.result_list %}
               {% if item.polling_location.geom %}
                   {lat: {{ item.polling_location.geom.y }}, lng: {{ item.polling_location.geom.x }}, count: {{ item.scope }} },
               {% endif %}
@@ -148,7 +148,7 @@
             '': blue
         };
         
-        {% for item in cl.queryset %}
+        {% for item in cl.result_list %}
           {% if item.polling_location.geom %}
             markers.push(L.marker([{{ item.polling_location.geom.y }}, {{ item.polling_location.geom.x }}], {icon: STATUS_TO_ICON['{{ item.status }}']}).bindPopup("<p><a href=\"/admin/vincent/incidentreport/{{ item.pk }}\">Incident #{{ item.pk }} &mdash; {{ item.get_nature_display }}</a><br />{% if item.description %}<blockquote>{{ item.description | truncatewords:40 }}</blockquote>{% endif %}{{ item.polling_location.pollinglocation }}, {{ item.polling_location.addr }}, {{ item.polling_location.city }}, {{ item.polling_location.state }} {{ item.polling_location.zip }}</p>"));
           {% endif %}
