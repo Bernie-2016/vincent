@@ -41,7 +41,14 @@
 
         {% block header %}
             <section class="jumbotron">
-                <div class="container text-center">
+                <div class="container text-center" style="position: relative;">
+                    {% if request.user.is_authenticated %}
+                        <div style="position: absolute; right: 10px; top: 10px;">
+                            Hello, {{ request.user.first_name }}.
+                            |
+                            <a href="{% url "logout" %}" style="color: #fff;">Logout</a>
+                        </div>
+                    {% endif %}
                     <h3>Vincent</h3>
                     <p class="lead text-muted">Voter Incident Reporting System</p>
                 </div>
