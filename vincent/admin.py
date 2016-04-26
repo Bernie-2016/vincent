@@ -4,6 +4,7 @@ from django.contrib.gis.admin import OSMGeoAdmin
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import truncatewords
 from django.utils.html import format_html
+from django.utils.timezone import template_localtime
 from localflavor.us.us_states import US_STATES
 from .models import *
 
@@ -100,7 +101,7 @@ class IncidentReportAdmin(admin.ModelAdmin):
                         obj.pk,
                         obj.get_scope_display(),
                         obj.get_nature_display(),
-                        obj.created.strftime("%-I:%M:%S %p, %b %-d"),
+                        template_localtime(obj.created).strftime("%-I:%M:%S %p, %b %-d"),
                         obj.polling_location,
                         truncatewords(obj.description, 60))
 
