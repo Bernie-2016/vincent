@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.gis.admin import OSMGeoAdmin
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import truncatewords
+from django.utils.functional import curry
 from django.utils.html import format_html
 from django.utils.timezone import template_localtime
 from localflavor.us.us_states import US_STATES
@@ -79,8 +80,13 @@ class GeocodedPollingLocationAdmin(OSMGeoAdmin):
 class CommentInline(admin.StackedInline):
     model = Comment
 
-    def get_changeform_initial_data(self, request):
-        return {'author': request.user}
+    def get_formset(self, request, obj=None, **kwargs):
+        formset = super(CommentInline, self).get_formset(request, obj, **kwargs)
+        initial = [{
+            'author': request.user,
+        }]
+        formset.__init__ = curry(formset.__init__, initial=initial)
+        return formset
 
 
 @admin.register(IncidentReport)
