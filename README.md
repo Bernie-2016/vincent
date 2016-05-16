@@ -17,7 +17,7 @@ Vincent is a system for reporting, assigning, and tracking voter protection inci
 
 - Django (~1.9)
 - GeoDjango https://docs.djangoproject.com/en/1.9/ref/contrib/gis/install/#mac-os-x
-- Stork / DNC access (talk to @schneidmaster)
+- Stork / DNC access
 
 ## Installation (tragically untested / recalling from memory)
 
