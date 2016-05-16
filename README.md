@@ -49,4 +49,4 @@ The jobs all exist, almost surely owned by me (Jon Culver). It's a bit to wrap y
 2. Workflow _could_ be tighter, I'll say. They're training wheels, at this point.
 3. Toward that same end: email notifications of incident assignments would be a big halp.
 
-## Copyright (c) 2016 Jon Culer
+## Copyright (c) 2016 Jon Culver
