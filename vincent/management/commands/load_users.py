@@ -176,7 +176,7 @@ Jon"""
 
                 email_message = EmailMultiAlternatives(subject='Welcome to Vincent, a new voter incident tracking system',
                                 body=plain_text_body,
-                                from_email='Jon Culver <jonculver@berniesanders.com>',
+                                from_email='Jacob LeGrone <jacoblegrone@berniesanders.com>',
                                 to=[new_user.email],
                                 headers={'X-Mailgun-Track': False})
 
