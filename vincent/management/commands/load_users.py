@@ -138,15 +138,15 @@ Your username is %(username)s. Please use this one-time link to login and set a 
 
 https://vincent.berniesanders.com/?username=%(username)s&password=%(password)s
 
-After that, you'll be ready to go. Just login here:
+After that, you'll be ready to go. Just log in here:
 
-https://vincent.berniesanders.com/
+https://vincent.berniesanders.com
 
 Feel free to respond to this email if you have any troubles and we'll get you sorted.
 
 Thank you!
 
-Jon"""
+Jacob"""
 
 
                 admin_tpl = """Hi %(first_name)s,
@@ -163,7 +163,7 @@ Feel free to respond to this email if you have any troubles and we'll get you so
 
 Thank you!
 
-Jon"""
+Jacob"""
 
                 email_body_tpl = admin_tpl if group_name == 'Admins' else operator_tpl
 
