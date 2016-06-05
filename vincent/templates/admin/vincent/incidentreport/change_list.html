@@ -119,7 +119,8 @@
         var map = new L.Map('map', {
           center: new L.LatLng(39.8282, -98.5795),
           zoom: 4,
-          layers: [baseLayer, heatmapLayer]
+          layers: [baseLayer, heatmapLayer],
+          scrollWheelZoom: false
         });
 
         heatmapLayer.setData(heatmapData);
