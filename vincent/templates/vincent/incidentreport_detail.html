@@ -41,8 +41,8 @@
                         {{ object.polling_location.city }}, {{ object.polling_location.state }} {{ object.polling_location.zip }}<br />
                         Open in:
                             <ul class="list-inline">
-                                <li><a href="https://www.google.com/maps/place/{{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}">Google Maps</a></li>
-                                <li><a href="http://maps.apple.com/?q={{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}">Apple Maps</a></li>
+                                <li><a target="_blank" href="https://www.google.com/maps/place/{{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}">Google Maps</a></li>
+                                <li><a target="_blank" href="http://maps.apple.com/?q={{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}">Apple Maps</a></li>
                             </ul>
                     </dd>
                 <dt>Reporter:</dt>
