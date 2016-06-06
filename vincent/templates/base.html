@@ -17,10 +17,34 @@
                                 font-weight: bold;
                                 text-transform: uppercase;
                                 letter-spacing: 0.1em; }
-        @media screen and (max-width: 767px){
+        .jumbotron .container {
+            position: relative;
+            padding: 2em;
+        }
+
+        #vincent-nav {
+            position: absolute;
+            right: 10px;
+            top: 7px;
+        }
+
+        @media (max-width: 767px){
             .jumbotron .text-muted{
                 font-size: 1.0em;
             }
+            .jumbotron .container{
+                padding: 1em;
+            }
+
+            #vincent-nav {
+                position: relative;
+                text-align: center;
+            }
+        }
+
+        .separator {
+            margin-left: 0.5em;
+            margin-right: 0.5em;
         }
 
         dt, dd{ margin-bottom: 0.2em; }
@@ -44,11 +68,15 @@
 
         {% block header %}
             <section class="jumbotron">
-                <div class="container text-center" style="position: relative;">
+                <div class="container text-center">
                     {% if request.user.is_authenticated %}
-                        <div style="position: absolute; right: 10px; top: 7px;">
+                        <div id="vincent-nav">
                             Logged in as {{ request.user.first_name }} {{ request.user.last_name }}.
-                            |
+                            {% if request.user.is_staff %}
+                                <span class="separator">|</span>
+                                <a href="/admin" style="color: #fff;">Vincent Admin</a>
+                            {% endif %}
+                            <span class="separator">|</span>
                             <a href="{% url "logout" %}" style="color: #fff;">Logout</a>
                         </div>
                     {% endif %}
