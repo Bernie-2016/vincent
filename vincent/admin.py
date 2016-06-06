@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
+from django.core.mail.message import EmailMultiAlternatives
+from django.utils.html import linebreaks, urlize
 from django.contrib.gis.admin import OSMGeoAdmin
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import truncatewords
@@ -133,6 +135,47 @@ class IncidentReportAdmin(admin.ModelAdmin):
                         template_localtime(obj.created).strftime("%-I:%M:%S %p, %b %-d"),
                         obj.polling_location,
                         truncatewords(obj.description, 60))
+
+    def save_model(self, request, obj, form, change):
+        obj.save()
+        
+        #Send email for newly assigned incidents
+        if ('assignee' in form.changed_data or change == False) and obj.assignee != None:
+            email_body_tpl = """Hi %(first_name)s,
+
+You have been assigned a new incident. To follow up, click this link:
+https://vincent.berniesanders.com/incidents/%(incident_id)s
+
+Reported by:
+%(reporter_name)s
+%(reporter_phone)s
+
+Type: %(type)s
+
+Description:
+%(description)s"""
+
+            plain_text_body = email_body_tpl % {'first_name': obj.assignee.first_name,
+                                                'description': obj.description,
+                                                'type': obj.nature,
+                                                'reporter_name': obj.reporter_name,
+                                                'reporter_phone': obj.reporter_phone,
+                                                'incident_id': obj.id}
+
+            html_body = linebreaks(urlize(plain_text_body))
+
+
+            email_message = EmailMultiAlternatives(subject='New Vincent Assignment',
+                            body=plain_text_body,
+                            from_email='Voter Incident Reporting System <vincent_noreply@berniesanders.com>',
+                            to=[obj.assignee.email],
+                            # to=['jacoblegrone@berniesanders.com'],
+                            reply_to=[obj.creator_email, 'reneeparadis@berniesanders.com'],
+                            headers={'X-Mailgun-Track': False})
+
+            email_message.attach_alternative(html_body, "text/html")
+
+            email_message.send(fail_silently=False)
 
 
 @admin.register(PhoneNumber)
