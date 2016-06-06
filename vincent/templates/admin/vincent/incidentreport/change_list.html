@@ -155,8 +155,10 @@
           {% endif %}
         {% endfor %}
 
-        var points = L.featureGroup(markers).addTo(map);
-        map.fitBounds(points.getBounds().pad(0.2));
+        if (markers.length > 0){
+          var points = L.featureGroup(markers).addTo(map);
+          map.fitBounds(points.getBounds().pad(0.2));
+        }
 
     </script>
 
