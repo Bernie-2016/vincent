@@ -71,7 +71,7 @@
                 <div class="container text-center">
                     {% if request.user.is_authenticated %}
                         <div id="vincent-nav">
-                            Logged in as {{ request.user.first_name }} {{ request.user.last_name }}.
+                            Signed in as {{ request.user.first_name }} {{ request.user.last_name }}
                             {% if request.user.is_staff %}
                                 <span class="separator">|</span>
                                 <a href="/admin" style="color: #fff;">Vincent Admin</a>
