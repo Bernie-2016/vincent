@@ -75,10 +75,10 @@
                         <div id="vincent-nav">
                             Signed in as {{ request.user.first_name }} {{ request.user.last_name }}
                             {% if request.user.is_staff %}
-                                <span class="separator">|</span>
+                                <span class="separator">/</span>
                                 <a href="/admin" style="color: #fff;">Vincent Admin</a>
                             {% endif %}
-                            <span class="separator">|</span>
+                            <span class="separator">/</span>
                             <a href="{% url "logout" %}" style="color: #fff;">Logout</a>
                         </div>
                     {% endif %}
