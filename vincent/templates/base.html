@@ -10,10 +10,13 @@
 
         body{ font-family: 'Lato'; }
 
-        .jumbotron .text-muted{ color: #205372;
+        .jumbotron {
+            border-radius: 0;
+        }
+        .jumbotron .text-muted{ color: lightgray;
                                 font-weight: bold;
                                 text-transform: uppercase;
-                                letter-spacing: 8px; }
+                                letter-spacing: 0.1em; }
         @media screen and (max-width: 767px){
             .jumbotron .text-muted{
                 font-size: 1.0em;
@@ -49,8 +52,10 @@
                             <a href="{% url "logout" %}" style="color: #fff;">Logout</a>
                         </div>
                     {% endif %}
-                    <h3>Vincent</h3>
-                    <p class="lead text-muted">Voter Incident Reporting System</p>
+                    <a href="/" style="text-decoration: none;">
+                        <h3>Vincent</h3>
+                        <p class="lead text-muted">Voter Incident Reporting System</p>
+                    </a>
                 </div>
             </section>
         {% endblock %}
