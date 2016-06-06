@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Vincent &mdash; Voter Incident Reporting</title>
+    <title>Vincent Reports</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     {% load static %}
     <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Lato:100,900,700,400,300' />
@@ -44,7 +44,7 @@
                 <div class="container text-center" style="position: relative;">
                     {% if request.user.is_authenticated %}
                         <div style="position: absolute; right: 10px; top: 7px;">
-                            Loggin in as {{ request.user.first_name }} {{ request.user.last_name }}.
+                            Logged in as {{ request.user.first_name }} {{ request.user.last_name }}.
                             |
                             <a href="{% url "logout" %}" style="color: #fff;">Logout</a>
                         </div>
