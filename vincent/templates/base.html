@@ -44,7 +44,7 @@
                 <div class="container text-center" style="position: relative;">
                     {% if request.user.is_authenticated %}
                         <div style="position: absolute; right: 10px; top: 7px;">
-                            Loggin in as {{ request.user.first_name }} {{ request.user.last_name }}.
+                            Logged in as {{ request.user.first_name }} {{ request.user.last_name }}.
                             |
                             <a href="{% url "logout" %}" style="color: #fff;">Logout</a>
                         </div>
