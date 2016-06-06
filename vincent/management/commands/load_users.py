@@ -107,7 +107,7 @@ class Command(BaseCommand):
             group_name = person.pop('Group')
 
             person_kwargs = dict((keyify[k], v) for k,v in person.iteritems())
-            person_kwargs['username'] = ''.join([person['First Name'], person['Last Name']]).lower()
+            person_kwargs['username'] = ''.join([person['First Name'], person['Last Name']]).lower().replace(" ", "")
 
             password = "bernievopro%s" % random.randint(20,99)
 
