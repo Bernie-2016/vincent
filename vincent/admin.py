@@ -167,7 +167,7 @@ Description:
 
             email_message = EmailMultiAlternatives(subject='New Vincent Assignment',
                             body=plain_text_body,
-                            from_email='Voter Incident Reporting System <vincent_noreply@berniesanders.com>',
+                            from_email='Voter Incident Reporting System <voterprotection@berniesanders.com>',
                             to=[obj.assignee.email],
                             reply_to=[obj.creator_email, 'reneeparadis@berniesanders.com'],
                             headers={'X-Mailgun-Track': False})
