@@ -45,7 +45,7 @@
         
         {% for item in assigned_incidents %}
           {% if item.polling_location.geom %}
-            markers.push(L.marker([{{ item.polling_location.geom.y }}, {{ item.polling_location.geom.x }}], {icon: STATUS_TO_ICON['{{ item.status }}']}).bindPopup("<p><a href=\"/admin/vincent/incidentreport/{{ item.pk }}\">Incident #{{ item.pk }} &mdash; {{ item.get_nature_display }}</a><br />{% if item.description %}<p>{{ item.description | truncatewords:40 }}</p>{% endif %}{{ item.polling_location.pollinglocation }}, {{ item.polling_location.addr }}, {{ item.polling_location.city }}, {{ item.polling_location.state }} {{ item.polling_location.zip }}</p>"));
+            markers.push(L.marker([{{ item.polling_location.geom.y }}, {{ item.polling_location.geom.x }}], {icon: STATUS_TO_ICON['{{ item.status }}']}).bindPopup("<p><a href=\"/incidents/{{ item.pk }}\">Incident #{{ item.pk }} &mdash; {{ item.get_nature_display }}</a><br />{% if item.description %}<p>{{ item.description | truncatewords:40 }}</p>{% endif %}{{ item.polling_location.pollinglocation }}, {{ item.polling_location.addr }}, {{ item.polling_location.city }}, {{ item.polling_location.state }} {{ item.polling_location.zip }}</p>"));
           {% endif %}
         {% endfor %}
 
