@@ -25,9 +25,8 @@
         }
 
         #vincent-nav {
-            position: absolute;
-            right: 10px;
-            top: 7px;
+            position: relative;
+            top: -20px;
         }
 
         @media (max-width: 767px){
@@ -38,9 +37,8 @@
                 padding: 1em;
             }
 
-            #vincent-nav {
-                position: relative;
-                text-align: center;
+            #vincent-nav{
+                top: 0;
             }
         }
 
@@ -73,13 +71,17 @@
                 <div class="container text-center">
                     {% if request.user.is_authenticated %}
                         <div id="vincent-nav">
-                            Signed in as {{ request.user.first_name }} {{ request.user.last_name }}
-                            {% if request.user.is_staff %}
-                                <span class="separator">/</span>
-                                <a href="/admin" style="color: #fff;">Vincent Admin</a>
-                            {% endif %}
-                            <span class="separator">/</span>
-                            <a href="{% url "logout" %}" style="color: #fff;">Logout</a>
+                            <div class="navbar-left">
+                                Signed in as {{ request.user.first_name }} {{ request.user.last_name }}
+                            </div>
+                            <div class="navbar-right">
+                                {% if request.user.is_staff %}
+                                    <a href="/admin" style="color: #fff;">Vincent Admin</a>
+                                    <span class="separator">/</span>
+                                {% endif %}
+                                
+                                <a href="{% url "logout" %}" style="color: #fff;">Logout</a>
+                            </div>
                         </div>
                     {% endif %}
                     <a href="/" style="text-decoration: none;">
