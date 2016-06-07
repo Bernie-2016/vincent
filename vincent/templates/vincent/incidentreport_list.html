@@ -9,7 +9,7 @@
         <a href="{% url "incident_add" %}" class="btn btn-primary">Add Incident Report</a>
     </div>
 
-    <h3>Incident Reports:</h3>
+    <h3>Assigned Incidents:</h3>
 
     <div id="map" style="width: 100%; min-height: 350px; margin-bottom: 3em"></div>
     <script>
@@ -64,7 +64,7 @@
             </a>
         {% empty %}
             <div class="list-group-item" style="padding: 20px 0">
-                <h4 class="list-group-item-heading text-center text-muted">You have no incident reports currently. <a href="{% url "incident_add" %}">Add one</a> and you can track it here.</h4>
+                <h4 class="list-group-item-heading text-center text-muted">You have not been assigned any incidents, but you can <a href="{% url "incident_add" %}">add one</a> here.</h4>
             </div>
         {% endfor %}
     </div>
