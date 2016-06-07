@@ -51,7 +51,7 @@ class AssigneeFilter(admin.SimpleListFilter):
     parameter_name = 'assignee'
 
     def lookups(self, request, model_admin):
-        return User.objects.filter(is_staff=True).values_list('pk', 'username')
+        return User.objects.filter(assigned_incidents__isnull = False).distinct().values_list('pk', 'username')
 
     def queryset(self, request, queryset):
         if self.value():
@@ -64,7 +64,7 @@ class StatusFilter(admin.SimpleListFilter):
     parameter_name = 'status'
 
     def lookups(self, request, model_admin):
-        choices = list( IncidentReport.STATUS_CHOICES)
+        choices = list(IncidentReport.STATUS_CHOICES)
         choices.insert(0, ('new+assigned', 'New or Assigned'))
         return choices
 
