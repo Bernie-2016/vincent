@@ -42,9 +42,15 @@ def index(request):
 
 
 class IncidentList(ListView):
+    context_object_name = 'assigned_incidents'
     
     def get_queryset(self):
         return IncidentReport.objects.filter(assignee=self.request.user, status__in=['new', 'assigned']).select_related('polling_location')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(IncidentList, self).get_context_data(*args, **kwargs)
+        context['created_incidents'] = IncidentReport.objects.filter(creator_email=self.request.user.email).select_related('polling_location')
+        return context
 
 
 class CommentCreate(CreateView):

@@ -9,7 +9,7 @@
         <a href="{% url "incident_add" %}" class="btn btn-primary">Add Incident Report</a>
     </div>
 
-    <h3>Assigned Incidents:</h3>
+    <h3>Assigned Incidents</h3>
 
     <div id="map" style="width: 100%; min-height: 350px; margin-bottom: 3em"></div>
     <script>
@@ -43,7 +43,7 @@
             '': blue
         };
         
-        {% for item in object_list %}
+        {% for item in assigned_incidents %}
           {% if item.polling_location.geom %}
             markers.push(L.marker([{{ item.polling_location.geom.y }}, {{ item.polling_location.geom.x }}], {icon: STATUS_TO_ICON['{{ item.status }}']}).bindPopup("<p><a href=\"/incidents/{{ item.pk }}\">Incident #{{ item.pk }} &mdash; {{ item.get_nature_display }}</a><br />{% if item.description %}<p>{{ item.description | truncatewords:40 }}</p>{% endif %}{{ item.polling_location.pollinglocation }}, {{ item.polling_location.addr }}, {{ item.polling_location.city }}, {{ item.polling_location.state }} {{ item.polling_location.zip }}</p>"));
           {% endif %}
@@ -56,7 +56,7 @@
     </script>
 
     <div class="list-group">
-        {% for object in object_list %}
+        {% for object in assigned_incidents %}
             <a href="{{ object.get_absolute_url }}" class="list-group-item">
                 <h4 class="list-group-item-heading">#{{ object.pk }} &mdash; {{ object.get_nature_display }}</h4>
                 <p class="list-group-item-text"><strong>{{ object.polling_location.pollinglocation }}, {{ object.polling_location.addr }}, {{ object.polling_location.city }}</strong></p>
@@ -64,7 +64,24 @@
             </a>
         {% empty %}
             <div class="list-group-item" style="padding: 20px 0">
-                <h4 class="list-group-item-heading text-center text-muted">You have not been assigned any incidents, but you can <a href="{% url "incident_add" %}">add one</a> here.</h4>
+                <h4 class="list-group-item-heading text-center text-muted">You have not been assigned any incidents.</h4>
+            </div>
+        {% endfor %}
+    </div>
+
+    <br>
+
+    <h3>Reported Incidents</h3>
+    <div class="list-group">
+        {% for object in created_incidents %}
+            <a href="{{ object.get_absolute_url }}" class="list-group-item">
+                <h4 class="list-group-item-heading">#{{ object.pk }} &mdash; {{ object.get_nature_display }}</h4>
+                <p class="list-group-item-text"><strong>{{ object.polling_location.pollinglocation }}, {{ object.polling_location.addr }}, {{ object.polling_location.city }}</strong></p>
+                <p class="list-group-item-text">{{ object.description|truncatewords:50 }}</p>
+            </a>
+        {% empty %}
+            <div class="list-group-item" style="padding: 20px 0">
+                <h4 class="list-group-item-heading text-center text-muted">You have not reported any incidents, but you can <a href="{% url "incident_add" %}">add one</a> here.</h4>
             </div>
         {% endfor %}
     </div>
