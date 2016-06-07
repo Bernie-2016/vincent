@@ -4,6 +4,8 @@ import sys
 
 import dotenv
 
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 if __name__ == "__main__":
     dotenv.read_dotenv()
