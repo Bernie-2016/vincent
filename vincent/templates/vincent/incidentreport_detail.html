@@ -5,8 +5,13 @@
 {% block container %}
 
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-7">
             <a href="{% url "incident_list" %}">&larr; Back to All Incident Reports</a>
+        </div>
+        <div class="col-xs-5" style="text-align: right">
+            {% if request.user.is_staff %}
+                <a href="/admin/vincent/incidentreport/{{ object.pk }}">Edit This Report &rarr;</a>
+            {% endif %}
         </div>
     </div>
 
