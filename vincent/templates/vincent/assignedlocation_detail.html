@@ -13,6 +13,7 @@
             <ul class="list-inline">
                 <li>Open in:</li>
                 <li><a target="_blank" href="https://www.google.com/maps/place/{{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}">Google Maps</a></li>
+                <li><a target="_blank" href="https://www.bing.com/mapspreview?q={{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}">Bing Maps</a></li>
                 <li><a target="_blank" href="http://maps.apple.com/?q={{ object.polling_location.pollinglocation|urlencode }}%2C+{{ object.polling_location.addr|urlencode }}%2C+{{ object.polling_location.city|urlencode }}%2C+{{ object.polling_location.state|urlencode }}+{{ object.polling_location.zip|urlencode }}">Apple Maps</a></li>
             </ul>
     <p>This request was added {{ object.updated | timesince }} ago, at <strong>{{ object.updated | date:"F jS Y g:ia T" }}</strong>. Please make your way over there when you're able,
