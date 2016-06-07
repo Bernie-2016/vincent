@@ -138,7 +138,7 @@ class IncidentReportAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         obj.save()
-        
+
         #Send email for newly assigned incidents
         if ('assignee' in form.changed_data or change == False) and obj.assignee != None:
             email_body_tpl = """Hi %(first_name)s,
@@ -169,7 +169,6 @@ Description:
                             body=plain_text_body,
                             from_email='Voter Incident Reporting System <vincent_noreply@berniesanders.com>',
                             to=[obj.assignee.email],
-                            # to=['jacoblegrone@berniesanders.com'],
                             reply_to=[obj.creator_email, 'reneeparadis@berniesanders.com'],
                             headers={'X-Mailgun-Track': False})
 
@@ -190,3 +189,40 @@ class AssignedLocationAdmin(admin.ModelAdmin):
     actions = None
     list_display = ['user', 'polling_location', 'fulfilled']
     raw_id_fields = ['polling_location']
+
+    def save_model(self, request, obj, form, change):
+        obj.save()
+        
+        #Send email for newly assigned locations
+        if 'user' in form.changed_data or 'polling_location' in form.changed_data:
+            email_body_tpl = """Hi %(first_name)s,
+
+We need you to relocate to a new polling location. Click here to get directions and check in once you're there:
+https://vincent.berniesanders.com/assigned-location
+
+Polling Location:
+%(pollinglocation)s
+%(addr)s
+%(cass_city)s %(cass_state)s, %(cass_zip5)s
+"""
+
+            plain_text_body = email_body_tpl % {'first_name': obj._user_cache.first_name,
+                                                'pollinglocation': obj._polling_location_cache.pollinglocation,
+                                                'addr': obj._polling_location_cache.addr,
+                                                'cass_city': obj._polling_location_cache.cass_city,
+                                                'cass_state': obj._polling_location_cache.cass_state,
+                                                'cass_zip5': obj._polling_location_cache.cass_zip5}
+
+            html_body = linebreaks(urlize(plain_text_body))
+
+
+            email_message = EmailMultiAlternatives(subject='New Voter Protection Location Assignment',
+                            body=plain_text_body,
+                            from_email='Voter Incident Reporting System <voterprotection@berniesanders.com>',
+                            to=[obj._user_cache.email],
+                            reply_to=['reneeparadis@berniesanders.com'],
+                            headers={'X-Mailgun-Track': False})
+
+            email_message.attach_alternative(html_body, "text/html")
+
+            email_message.send(fail_silently=False)
