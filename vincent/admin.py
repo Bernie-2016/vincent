@@ -51,7 +51,7 @@ class AssigneeFilter(admin.SimpleListFilter):
     parameter_name = 'assignee'
 
     def lookups(self, request, model_admin):
-        return User.objects.filter(assigned_incidents__isnull = False).distinct().values_list('pk', 'username')
+        return User.objects.filter(assigned_incidents__isnull = False).distinct().order_by('username').values_list('pk', 'username')
 
     def queryset(self, request, queryset):
         if self.value():
