@@ -44,11 +44,6 @@ That last one's going to require some elaboration — somewhere in the bowels o
 
 The jobs all exist, almost surely owned by me (Jon Culver). It's a bit to wrap your head around but most of the pieces are in place. Run them and wait (the state of CA, for example, might take a few hours to geocode entirely) and then you're gold!
 
-## To do
-1. Better separate the "front-end" roles. There's field attorneys, who need some of the geolcoation featuers, but there's also "boiler room" attorneys who aren't on the scene and don't care as much (and, probably don't need to review existing events). Talk to Renée to hash these use-cases out better.
-2. Workflow _could_ be tighter, I'll say. They're training wheels, at this point.
-3. Toward that same end: email notifications of incident assignments would be a big halp.
-
 ## Screenshots
 
 Login Page
