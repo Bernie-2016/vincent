@@ -19,15 +19,16 @@ Vincent is a system for reporting, assigning, and tracking voter protection inci
 - GeoDjango https://docs.djangoproject.com/en/1.9/ref/contrib/gis/install/#mac-os-x
 - Stork / DNC access
 
-## Installation (tragically untested / recalling from memory)
+## Installation
 
 1. `git clone git@github.com/Bernie-2016/vincent.git`
 2. `cd vincent`
 3. `mkvirtualenv vincent`
 4. `pip install -r requirements.txt`
-5. Add a `SECRET_KEY` and `DATABASE_URL` entries to a `.env` file (and, for email invite support, `MAILGUN_ACCESS_KEY` and `MAILGUN_SERVER_NAME`)
+5. Rename `.env.sample` to `.env` and update `SECRET_KEY` and `DATABASE_URL` (and, for email invite support, `MAILGUN_ACCESS_KEY` and `MAILGUN_SERVER_NAME`)
 6. `./manage.py migrate`
-7. `./manage.py runserver`
+7. Seed some data into your local database
+8. `./manage.py runserver`
 
 ## But how do I even?
 
